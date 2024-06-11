@@ -8,6 +8,7 @@ import WizardPage from './components/WizardPage';
 import { AuthProvider } from './context/AuthProvider';
 import { useAuth } from './hooks/useAuth';
 import { QueryProvider } from './context/QueryProvider';
+import NavBar from './components/Navbar';
 
 const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
     const { isAuthenticated, isInitializing } = useAuth();
@@ -24,6 +25,7 @@ const App: React.FC = () => {
     <AuthProvider>
       <QueryProvider>  {/* Use the QueryProvider component here */}
         <BrowserRouter>
+        <NavBar />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/companies" element={<PrivateRoute><CompaniesList /></PrivateRoute>} />
