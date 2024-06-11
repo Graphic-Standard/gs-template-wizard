@@ -5,16 +5,16 @@ import { AuthContextType } from './AuthContextType';
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(Boolean(token));
+  const [isInitializing, setIsInitializing] = useState(true); // New state to track initialization
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
+    if (token) {
       setIsAuthenticated(true);
     }
-  }, []);
+    setIsInitializing(false); // Set initializing to false after checking token
+  }, [token]);
 
   const login = (token: string) => {
     localStorage.setItem('token', token);
@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, token, login, logout, isInitializing }}>
       {children}
     </AuthContext.Provider>
   );

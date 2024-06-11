@@ -1,16 +1,18 @@
-// Import necessary items from React and your context file
+// src/hooks/useAuth.ts
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthProvider';  // Adjust the import path as needed based on your project structure
+import { AuthContext } from '../context/AuthProvider';  // Ensure the path is correct
 
 /**
  * Custom hook for accessing authentication context.
- * @returns The authentication context including user's authentication status and token.
- * @throws Error if the hook is used outside of an AuthProvider.
+ * Uses React's useContext to tap into the provided AuthContext from AuthProvider.
+ * 
+ * @returns {AuthContextType} The authentication context which includes the user's authentication status and token.
+ * @throws {Error} Throws an error if used outside of an AuthProvider to ensure proper usage within context boundaries.
  */
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  
-  // Ensure the context is not undefined, which would indicate that this hook is used outside of an AuthProvider
+
+  // Check if the context is not defined, which would mean useAuth is being used outside of an AuthProvider.
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
