@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useCallback } from 'react'
 import { BackgroundType } from '../../types/componentTypes'
-import TextInput from '../inputs/TextInput'
 import ColorPicker from '../inputs/ColorPicker'
 import FileInput from '../inputs/FileInput'
 import SelectInput from '../inputs/SelectInput'
@@ -27,18 +26,6 @@ const BackgroundComponent: React.FC<BackgroundComponentProps> = ({
   const [imageUrl, setImageUrl] = useState(
     data.additionalProps.imageUrl?.defaultValue || '',
   )
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const result = event.target?.result as string
-        setImageUrl(result)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
 
   const generateHtml = useCallback(() => {
     const tempDiv = document.createElement('div')
